@@ -20,6 +20,11 @@ public:
 	ABoardActor();
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+		int board_x;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+		int board_y;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

@@ -14,16 +14,19 @@ class NOIR_GAME_API ABoard : public AActor
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-	TSet<ABoardActor*> Objects;
+		TSet<ABoardActor*> Objects;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-	int size_x;
+		int size_x;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-	int size_y;
+		int size_y;
 	// Sets default values for this actor's properties
 	ABoard();
 
 	bool TryMove(int to_x, int to_y);
+	void MoveOnBoard(ABoardActor* who, int to_x, int to_y);
+	float GetWorldX(int board_x);
+	float GetWorldY(int board_y);
 
 protected:
 	// Called when the game starts or when spawned

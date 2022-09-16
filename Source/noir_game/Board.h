@@ -14,7 +14,7 @@ class NOIR_GAME_API ABoard : public AActor
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-		TSet<ABoardActor*> Objects;
+		TArray<ABoardActor*> Objects;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
 		int size_x;

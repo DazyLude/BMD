@@ -8,14 +8,14 @@
 
 class ABoard;
 
-UCLASS()
+UCLASS(Abstract)
 class NOIR_GAME_API ABoardActor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	bool interactable;
-	bool Action(ABoard* Board);
+	virtual bool Action(ABoard* Board) { return true; };
 	// Sets default values for this actor's properties
 	ABoardActor();
 

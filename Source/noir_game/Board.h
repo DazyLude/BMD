@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Public/BoardActor.h"
 #include "Board.generated.h"
+
+class ABoardActor;
 
 UCLASS(Placeable, ShowCategories = (Attributes))
 class NOIR_GAME_API ABoard : public AActor
@@ -14,21 +15,18 @@ class NOIR_GAME_API ABoard : public AActor
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-		TArray<ABoardActor*> Objects;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
 		int size_x;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
 		int size_y;
 	// Sets default values for this actor's properties
 	ABoard();
 
-	bool TryMove(int to_x, int to_y);
+	bool TryMove(TPair<int, int>);
 	void MoveOnBoard(ABoardActor* who, int to_x, int to_y);
-	float GetWorldX(int board_x);
-	float GetWorldY(int board_y);
+	void AddToBoardMap(ABoardActor*);
 
 protected:
+	TMap < TPair<int, int>, ABoardActor* > BoardMap;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

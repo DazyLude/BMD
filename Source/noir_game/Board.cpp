@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "Public/BoardActor.h"
 #include "Board.h"
 
 // Sets default values
@@ -25,3 +25,11 @@ void ABoard::Tick(float DeltaTime)
 
 }
 
+void ABoard::AddToBoardMap(ABoardActor* whomst) {
+	BoardMap.Add(whomst->GetBoardCoordinates(), whomst);
+}
+
+bool ABoard::TryMove(TPair<int, int> to) {
+	if (!BoardMap.Contains(to)) return true;
+	return BoardMap[to]->Action();
+}

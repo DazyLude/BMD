@@ -16,6 +16,6 @@ AWall::AWall() {
     }
 }
 
-bool AWall::Action(ABoard* Board) {
+bool AWall::Action() {
     return false;
 }

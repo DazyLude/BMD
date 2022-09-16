@@ -21,5 +21,4 @@ public:
 	AEmptySpace();
 
 protected:
-	bool interactable {false};
 };

@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "../Source/noir_game/Board.h"
 #include "BoardActor.h"
 
 // Sets default values
@@ -15,7 +15,7 @@ ABoardActor::ABoardActor()
 void ABoardActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	MyLittleBoard->AddToBoardMap(this);
 }
 
 // Called every frame
@@ -23,5 +23,9 @@ void ABoardActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+TPair<int, int> ABoardActor::GetBoardCoordinates() {
+	return { board_x, board_y };
 }
 

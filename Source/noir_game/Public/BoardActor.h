@@ -13,11 +13,14 @@ class NOIR_GAME_API ABoardActor : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	bool interactable;
-	virtual bool Action(ABoard* Board) { return true; };
+public:
+	UPROPERTY(EditAnywhere, Category = Attributes)
+		ABoard* MyLittleBoard;
+
+	virtual bool Action() { return true; };
 	// Sets default values for this actor's properties
 	ABoardActor();
+	TPair<int, int> GetBoardCoordinates();
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)

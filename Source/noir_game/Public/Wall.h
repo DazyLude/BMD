@@ -22,8 +22,7 @@ public:
 	AWall();
 
 protected:
-	bool interactable{ true };
-	bool Action(ABoard* Board) override;
+	bool Action() override;
 
 
 };

@@ -24,6 +24,8 @@ public:
 	bool TryMove(TPair<int, int>, TPair<int, int>);
 	void MoveOnBoard(ABoardActor* who, TPair<int, int>);
 	void AddToBoardMap(ABoardActor*);
+	void RemoveFromBoardMap(TPair<int, int>, ABoardActor* who);
+	ABoardActor* WhoAt(TPair <int, int>);
 
 protected:
 	TMap < TPair<int, int>, ABoardActor* > BoardMap;

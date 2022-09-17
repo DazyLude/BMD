@@ -39,3 +39,11 @@ void ABoard::MoveOnBoard(ABoardActor* who, TPair<int, int> to) {
 	who->Move(to);
 	AddToBoardMap(who);
 }
+
+void ABoard::RemoveFromBoardMap(TPair<int, int> at, ABoardActor* who) {
+	if (BoardMap[at] == who) BoardMap.Remove(at);
+}
+
+ABoardActor* ABoard::WhoAt(TPair<int, int> at) {
+	return BoardMap[at];
+}

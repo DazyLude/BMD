@@ -13,6 +13,8 @@ UCLASS()
 class NOIR_GAME_API ADetectiveActor : public ABoardActor
 {
 	GENERATED_BODY()
+public:
+	const bool CanCollectClues{ true };
 	ADetectiveActor();
 	bool Action(TPair<int, int> from) override;
 };

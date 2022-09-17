@@ -13,6 +13,9 @@ UCLASS()
 class NOIR_GAME_API AClue : public ABoardActor
 {
 	GENERATED_BODY()
+public:
 	AClue();
 	bool Action(TPair<int, int>) override;
+	UPROPERTY(EditAnywhere, category = Attributes)
+	int ClueValue {0};
 };

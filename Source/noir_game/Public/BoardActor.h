@@ -22,7 +22,7 @@ public:
 	ABoardActor();
 	TPair<int, int> GetBoardCoordinates();
 	void Move(TPair<int, int>);
-
+	const bool CanCollectClues {false};
 protected:
 	UPROPERTY(VisibleAnywhere)
 		UStaticMeshComponent* Mesh;

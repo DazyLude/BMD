@@ -30,8 +30,12 @@ TPair<int, int> ABoardActor::GetBoardCoordinates() {
 }
 
 void ABoardActor::Move(TPair<int, int> to) {
+    auto dx = to.Key - board_x;
+    auto dy = to.Value - board_y;
 	board_x = to.Key;
 	board_y = to.Value;
+    auto start_location = GetActorLocation();
+    SetActorLocation({ start_location[0] + double(dx), start_location[1] + double(dy), start_location[2] });
 }
 
 void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVisualAsset) {

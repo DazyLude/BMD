@@ -16,6 +16,8 @@ bool AClue::Action(TPair<int, int> from) {
 			GS->CollectedClues += ClueValue;
 		}
 		MyLittleBoard->RemoveFromBoardMap(GetBoardCoordinates(), this);
-		this->BeginDestroy();
+		BeginDestroy();
+		return true;
 	}
+	return false;
 }

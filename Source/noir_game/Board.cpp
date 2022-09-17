@@ -29,7 +29,7 @@ void ABoard::AddToBoardMap(ABoardActor* whomst) {
 	BoardMap.Add(whomst->GetBoardCoordinates(), whomst);
 }
 
-bool ABoard::TryMove(TPair<int, int> to) {
+bool ABoard::TryMove(TPair<int, int> from, TPair<int, int> to) {
 	if (!BoardMap.Contains(to)) return true;
-	return BoardMap[to]->Action();
+	return BoardMap[to]->Action(from);
 }

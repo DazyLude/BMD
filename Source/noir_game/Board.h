@@ -21,7 +21,7 @@ public:
 	// Sets default values for this actor's properties
 	ABoard();
 
-	bool TryMove(TPair<int, int>);
+	bool TryMove(TPair<int, int>, TPair<int, int>);
 	void MoveOnBoard(ABoardActor* who, int to_x, int to_y);
 	void AddToBoardMap(ABoardActor*);
 

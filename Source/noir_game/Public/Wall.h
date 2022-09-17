@@ -22,7 +22,7 @@ public:
 	AWall();
 
 protected:
-	bool Action() override;
+	bool Action(TPair<int, int>) override;
 
 
 };

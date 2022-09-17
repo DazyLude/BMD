@@ -17,7 +17,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Attributes)
 		ABoard* MyLittleBoard;
 
-	virtual bool Action() { return true; };
+	virtual bool Action(TPair<int, int> from) { return true; };
 	// Sets default values for this actor's properties
 	ABoardActor();
 	TPair<int, int> GetBoardCoordinates();

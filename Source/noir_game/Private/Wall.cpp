@@ -16,6 +16,6 @@ AWall::AWall() {
     }
 }
 
-bool AWall::Action() {
+bool AWall::Action(TPair<int, int> from) {
     return false;
 }

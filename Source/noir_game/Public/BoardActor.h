@@ -21,6 +21,7 @@ public:
 	// Sets default values for this actor's properties
 	ABoardActor();
 	TPair<int, int> GetBoardCoordinates();
+	void Move(TPair<int, int>);
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)

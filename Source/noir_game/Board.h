@@ -22,7 +22,7 @@ public:
 	ABoard();
 
 	bool TryMove(TPair<int, int>, TPair<int, int>);
-	void MoveOnBoard(ABoardActor* who, int to_x, int to_y);
+	void MoveOnBoard(ABoardActor* who, TPair<int, int>);
 	void AddToBoardMap(ABoardActor*);
 
 protected:

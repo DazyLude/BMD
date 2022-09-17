@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Public/BoardActor.h"
 #include "Board.h"
+#include "Public/BoardActor.h"
 
 // Sets default values
 ABoard::ABoard()
@@ -32,4 +32,10 @@ void ABoard::AddToBoardMap(ABoardActor* whomst) {
 bool ABoard::TryMove(TPair<int, int> from, TPair<int, int> to) {
 	if (!BoardMap.Contains(to)) return true;
 	return BoardMap[to]->Action(from);
+}
+
+void ABoard::MoveOnBoard(ABoardActor* who, TPair<int, int> to) {
+	BoardMap.Remove(who->GetBoardCoordinates());
+	who->Move(to);
+	AddToBoardMap(who);
 }

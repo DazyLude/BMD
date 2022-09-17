@@ -29,3 +29,8 @@ TPair<int, int> ABoardActor::GetBoardCoordinates() {
 	return { board_x, board_y };
 }
 
+void ABoardActor::Move(TPair<int, int> to) {
+	board_x = to.Key;
+	board_y = to.Value;
+}
+

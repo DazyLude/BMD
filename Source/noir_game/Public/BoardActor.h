@@ -24,11 +24,15 @@ public:
 	void Move(TPair<int, int>);
 
 protected:
+	UPROPERTY(VisibleAnywhere)
+		UStaticMeshComponent* Mesh;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
 		int board_x;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
 		int board_y;
-
+	
+	// Sets mesh in children class constructors
+	void SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>&);
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

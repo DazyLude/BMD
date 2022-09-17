@@ -15,9 +15,6 @@ class NOIR_GAME_API AEmptySpace : public ABoardActor
 	GENERATED_BODY()
 public:
 
-	UPROPERTY(VisibleAnywhere)
-		UStaticMeshComponent* Mesh;
-
 	AEmptySpace();
 
 protected:

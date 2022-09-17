@@ -34,3 +34,14 @@ void ABoardActor::Move(TPair<int, int> to) {
 	board_y = to.Value;
 }
 
+void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVisualAsset) {
+    Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+    Mesh->SetupAttachment(RootComponent);
+    if (MeshVisualAsset.Succeeded())
+    {
+        Mesh->SetStaticMesh(MeshVisualAsset.Object);
+        Mesh->SetRelativeLocation(FVector(-0.5f, -0.5f, 0.0f));
+        Mesh->SetWorldScale3D(FVector(1.0f));
+        Mesh->Activate();
+    }
+}

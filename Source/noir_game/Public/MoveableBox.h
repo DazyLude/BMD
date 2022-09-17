@@ -13,8 +13,6 @@ UCLASS()
 class NOIR_GAME_API AMoveableBox : public ABoardActor
 {
 	GENERATED_BODY()
-	UPROPERTY(VisibleAnywhere)
-		UStaticMeshComponent* Mesh;
 
 	AMoveableBox();
 	bool Action(TPair<int, int> from) override;

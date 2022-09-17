@@ -4,22 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "BoardActor.h"
-#include "Wall.generated.h"
+#include "DetectiveActor.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class NOIR_GAME_API AWall : public ABoardActor
+class NOIR_GAME_API ADetectiveActor : public ABoardActor
 {
-
 	GENERATED_BODY()
-public:
-
-	AWall();
-
-protected:
-	bool Action(TPair<int, int>) override;
-
-
+	ADetectiveActor();
+	bool Action(TPair<int, int> from) override;
 };

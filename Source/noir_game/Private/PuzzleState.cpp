@@ -6,3 +6,7 @@
 bool APuzzleState::LevelComplete() {
 	return CollectedClues >= RequiredClues;
 }
+
+void APuzzleState::TimeChanger() {
+	TimePassed++;
+}

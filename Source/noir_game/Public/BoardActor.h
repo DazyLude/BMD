@@ -15,7 +15,7 @@ class NOIR_GAME_API ABoardActor : public AActor
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-	ABoard* MyLittleBoard;
+	ABoard* MyLittleBoard {};
 
 	ABoardActor();
 	

@@ -26,7 +26,7 @@ void ABoard::Tick(float DeltaTime)
 }
 
 FVector ABoard::GetBoardLocation(TPair<int, int> board_coords) {
-	return { double(board_coords.Key) * 100., double(board_coords.Value) * 100., 0.};
+	return { double(board_coords.Key) * 100., double(board_coords.Value) * -100., 0.};
 }
 
 void ABoard::AddToBoardMap(ABoardActor* whomst) {

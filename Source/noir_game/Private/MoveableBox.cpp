@@ -9,7 +9,7 @@ AMoveableBox::AMoveableBox() {
 }
 
 bool AMoveableBox::Action(TPair<int, int> from) {
-	TPair<int, int> to { board_x - from.Key, board_y - from.Value };
+	TPair<int, int> to { 2 * board_x - from.Key, 2 * board_y - from.Value };
 	if (MyLittleBoard->TryMove(GetBoardCoordinates(), to)) {
 		MyLittleBoard->MoveOnBoard(this, to);
 		return true;

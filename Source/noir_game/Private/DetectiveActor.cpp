@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "..\Source\noir_game\Board.h"
 #include "DetectiveActor.h"
+#include "..\Source\noir_game\Board.h"
 
 ADetectiveActor::ADetectiveActor() {
 	ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Props/SM_Statue.SM_Statue"));

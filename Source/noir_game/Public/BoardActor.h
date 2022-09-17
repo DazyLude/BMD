@@ -14,14 +14,19 @@ class NOIR_GAME_API ABoardActor : public AActor
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(EditAnywhere, Category = Attributes)
-		ABoard* MyLittleBoard;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+	ABoard* MyLittleBoard;
 
+	ABoardActor();
+	
 	virtual bool Action(TPair<int, int> from) { return true; };
 	// Sets default values for this actor's properties
-	ABoardActor();
 	TPair<int, int> GetBoardCoordinates();
 	void Move(TPair<int, int>);
+
+	UFUNCTION(BlueprintCallable)
+	void MoveBy(int dx, int dy);
+
 	const bool CanCollectClues {false};
 protected:
 	UPROPERTY(VisibleAnywhere)

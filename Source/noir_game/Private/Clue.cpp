@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Clue.h"
 #include "..\Source\noir_game\Board.h"
 #include "PuzzleState.h"
-#include "Clue.h"
 
 AClue::AClue() {
 	ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Props/SM_Bush.SM_Bush"));

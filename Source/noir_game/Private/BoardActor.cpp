@@ -16,13 +16,14 @@ void ABoardActor::BeginPlay()
 {
 	Super::BeginPlay();
 	MyLittleBoard->AddToBoardMap(this);
+    Move(GetBoardCoordinates());
 }
+
 
 // Called every frame
 void ABoardActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 TPair<int, int> ABoardActor::GetBoardCoordinates() {
@@ -30,12 +31,15 @@ TPair<int, int> ABoardActor::GetBoardCoordinates() {
 }
 
 void ABoardActor::Move(TPair<int, int> to) {
-    auto dx = to.Key - board_x;
-    auto dy = to.Value - board_y;
 	board_x = to.Key;
 	board_y = to.Value;
-    auto start_location = GetActorLocation();
-    SetActorLocation({ start_location[0] + double(dx), start_location[1] + double(dy), start_location[2] });
+    SetActorLocation(MyLittleBoard->GetBoardLocation({ board_x, board_y }));
+}
+
+void ABoardActor::MoveBy(int dx, int dy) {
+    TPair<int, int> to{ board_x + dx, board_y + dy };
+    if (MyLittleBoard->TryMove(GetBoardCoordinates(), to))
+        MyLittleBoard->MoveOnBoard(this, to);
 }
 
 void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVisualAsset) {

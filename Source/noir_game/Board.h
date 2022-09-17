@@ -21,6 +21,8 @@ public:
 	// Sets default values for this actor's properties
 	ABoard();
 
+	FVector GetBoardLocation(TPair<int, int>);
+
 	bool TryMove(TPair<int, int>, TPair<int, int>);
 	void MoveOnBoard(ABoardActor* who, TPair<int, int>);
 	void AddToBoardMap(ABoardActor*);

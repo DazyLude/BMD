@@ -6,7 +6,7 @@
 
 AClue::AClue() {
 	ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Props/SM_Bush.SM_Bush"));
-	SetMesh(VisualMesh);
+	SetMesh(VisualMesh, 1.);
 }
 
 bool AClue::Action(TPair<int, int> from) {
@@ -16,7 +16,7 @@ bool AClue::Action(TPair<int, int> from) {
 			GS->CollectedClues += ClueValue;
 		}
 		MyLittleBoard->RemoveFromBoardMap(GetBoardCoordinates(), this);
-		BeginDestroy();
+		Mesh->SetHiddenInGame(true);
 		return true;
 	}
 	return false;

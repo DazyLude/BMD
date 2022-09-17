@@ -27,7 +27,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void MoveBy(int dx, int dy);
 
-	const bool CanCollectClues {false};
+	bool CanCollectClues {false};
 protected:
 	UPROPERTY(VisibleAnywhere)
 		UStaticMeshComponent* Mesh;
@@ -37,7 +37,7 @@ protected:
 		int board_y;
 	
 	// Sets mesh in children class constructors
-	void SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>&);
+	void SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>&, double);
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

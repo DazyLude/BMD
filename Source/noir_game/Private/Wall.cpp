@@ -5,7 +5,7 @@
 
 AWall::AWall() {
     ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Props/SM_Rock.SM_Rock"));
-    SetMesh(VisualMesh);
+    SetMesh(VisualMesh, 0.5);
 }
 
 bool AWall::Action(TPair<int, int> from) {

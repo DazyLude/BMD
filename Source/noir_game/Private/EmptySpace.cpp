@@ -5,5 +5,5 @@
 
 AEmptySpace::AEmptySpace() {
 	ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh (TEXT("/Game/StarterContent/Shapes/Shape_Plane.Shape_Plane"));
-	SetMesh(VisualMesh);
+	SetMesh(VisualMesh, 1.);
 }

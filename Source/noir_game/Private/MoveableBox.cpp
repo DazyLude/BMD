@@ -5,7 +5,7 @@
 
 AMoveableBox::AMoveableBox() {
 	ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube"));
-	SetMesh(VisualMesh);
+	SetMesh(VisualMesh, 0.7);
 }
 
 bool AMoveableBox::Action(TPair<int, int> from) {

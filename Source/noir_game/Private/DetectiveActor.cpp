@@ -6,7 +6,8 @@
 
 ADetectiveActor::ADetectiveActor() {
 	ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Props/SM_Statue.SM_Statue"));
-	SetMesh(VisualMesh);
+	SetMesh(VisualMesh, 1.5);
+	CanCollectClues = true;
 }
 
 bool ADetectiveActor::Action(TPair<int, int> from) {

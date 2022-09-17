@@ -42,14 +42,14 @@ void ABoardActor::MoveBy(int dx, int dy) {
         MyLittleBoard->MoveOnBoard(this, to);
 }
 
-void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVisualAsset) {
+void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVisualAsset, double scale_mod = 1.0) {
     Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
     Mesh->SetupAttachment(RootComponent);
     if (MeshVisualAsset.Succeeded())
     {
         Mesh->SetStaticMesh(MeshVisualAsset.Object);
         Mesh->SetRelativeLocation(FVector(-0.5f, -0.5f, 0.0f));
-        Mesh->SetWorldScale3D(FVector(1.0f));
+        Mesh->SetWorldScale3D(FVector(scale_mod));
         Mesh->Activate();
     }
 }

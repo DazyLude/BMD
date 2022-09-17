@@ -18,4 +18,8 @@ public:
 	bool Action(TPair<int, int>) override;
 	UPROPERTY(EditAnywhere, category = Attributes)
 	int ClueValue {0};
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = Attributes)
+		int LifeTime;
+	UFUNCTION(BlueprintCallable)
+		void LifeTimeChanger();
 };

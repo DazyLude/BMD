@@ -15,12 +15,13 @@ class ABoardActor;
 UCLASS()
 class NOIR_GAME_API APuzzleState : public AGameStateBase
 {
+	
 public:
 	GENERATED_BODY()
 	UPROPERTY(BlueprintReadWrite, Category = ImportantActors)
 	ABoardActor* PlayerControlledBoardActor;
 	UPROPERTY(BlueprintReadWrite, Category = PuzzleProgress)
-	int TimeAvaiable;
+	int TimeAvailable;
 	UPROPERTY(BlueprintReadWrite, Category = PuzzleProgress)
 	int TimePassed;
 	UPROPERTY(BlueprintReadWrite, Category = PuzzleProgress)
@@ -29,4 +30,6 @@ public:
 	int CollectedClues;
 	UFUNCTION(BlueprintCallable)
 	bool LevelComplete();
+	UFUNCTION(BlueprintCallable)
+	void TimeChanger();
 };

@@ -21,3 +21,9 @@ bool AClue::Action(TPair<int, int> from) {
 	}
 	return false;
 }
+
+void AClue::LifeTimeChanger() {
+	if (LifeTime > 0) {
+		LifeTime--;
+	}
+}

@@ -15,8 +15,10 @@ ABoardActor::ABoardActor()
 void ABoardActor::BeginPlay()
 {
 	Super::BeginPlay();
-	MyLittleBoard->AddToBoardMap(this);
-    Move(GetBoardCoordinates());
+    if (MyLittleBoard != nullptr) {
+	    MyLittleBoard->AddToBoardMap(this);
+        Move(GetBoardCoordinates());
+    }
 }
 
 

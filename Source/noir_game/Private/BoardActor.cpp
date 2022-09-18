@@ -19,6 +19,7 @@ void ABoardActor::BeginPlay()
 	    MyLittleBoard->AddToBoardMap(this);
         Move(GetBoardCoordinates());
     }
+    else BeginDestroy();
 }
 
 
@@ -54,4 +55,9 @@ void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVi
         Mesh->SetWorldScale3D(FVector(scale_mod));
         Mesh->Activate();
     }
+}
+
+void ABoardActor::PseudoDestroy() {
+    MyLittleBoard->RemoveFromBoardMap(GetBoardCoordinates(), this);
+    Mesh->SetHiddenInGame(true);
 }

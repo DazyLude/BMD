@@ -31,6 +31,8 @@ public:
 
 protected:
 	TMap < TPair<int, int>, ABoardActor* > BoardMap;
+
+	TSet<ABoardActor*> TickTurnSet;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -38,4 +40,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
+	void TickTurnOnBoard();
 };

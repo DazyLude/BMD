@@ -15,15 +15,19 @@ bool AClue::Action(TPair<int, int> from) {
 		if (GS != nullptr) {
 			GS->CollectedClues += ClueValue;
 		}
-		MyLittleBoard->RemoveFromBoardMap(GetBoardCoordinates(), this);
-		Mesh->SetHiddenInGame(true);
+		PseudoDestroy();
 		return true;
 	}
 	return false;
 }
 
-void AClue::LifeTimeChanger() {
+void AClue::LifeTimeTick() {
 	if (LifeTime > 0) {
-		LifeTime--;
+		--LifeTime;
 	}
+}
+
+void AClue::TickTurn() {
+	if (isTemporary) LifeTimeTick();
+	if (LifeTime == 0) PseudoDestroy();
 }

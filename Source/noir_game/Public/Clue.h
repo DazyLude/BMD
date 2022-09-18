@@ -15,11 +15,17 @@ class NOIR_GAME_API AClue : public ABoardActor
 	GENERATED_BODY()
 public:
 	AClue();
+
 	bool Action(TPair<int, int>) override;
 	UPROPERTY(EditAnywhere, category = Attributes)
 	int ClueValue {0};
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = Attributes)
-		int LifeTime;
+		int LifeTime {1};
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = Attributes)
+		bool isTemporary {false};
 	UFUNCTION(BlueprintCallable)
-		void LifeTimeChanger();
+		void LifeTimeTick();
+
+	bool canTickTurn() override { return true; };
+	void TickTurn() override;
 };

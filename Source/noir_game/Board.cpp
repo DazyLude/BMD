@@ -28,6 +28,7 @@ FVector ABoard::GetBoardLocation(TPair<int, int> board_coords) {
 
 void ABoard::AddToBoardMap(ABoardActor* whomst) {
 	BoardMap.Add(whomst->GetBoardCoordinates(), whomst);
+	if (whomst->canTickTurn()) TickTurnSet.Add(whomst);
 }
 
 bool ABoard::TryMove(TPair<int, int> from, TPair<int, int> to) {
@@ -42,9 +43,19 @@ void ABoard::MoveOnBoard(ABoardActor* who, TPair<int, int> to) {
 }
 
 void ABoard::RemoveFromBoardMap(TPair<int, int> at, ABoardActor* who) {
-	if (BoardMap[at] == who) BoardMap.Remove(at);
+	if (BoardMap[at] == who)
+	{
+		BoardMap.Remove(at);
+		if (who->canTickTurn())  TickTurnSet.Remove(who);
+	}
 }
 
 ABoardActor* ABoard::WhoAt(TPair<int, int> at) {
 	return BoardMap[at];
+}
+
+void ABoard::TickTurnOnBoard() {
+	for (auto ticker : TickTurnSet) {
+		ticker->TickTurn();
+	}
 }

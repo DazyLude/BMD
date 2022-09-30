@@ -4,42 +4,69 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Public/IntCoords2D.h"
 #include "Board.generated.h"
 
 class ABoardActor;
+class ABoardScriptEvent;
 
 UCLASS(Placeable, ShowCategories = (Attributes))
 class NOIR_GAME_API ABoard : public AActor
 {
 	GENERATED_BODY()
-	
-public:
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
 		int size_x;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
 		int size_y;
+public:
 	// Sets default values for this actor's properties
 	ABoard();
 
-	FVector GetBoardLocation(TPair<int, int>);
+	// world transform
+	FVector GetBoardLocation(FIntCoords2D);
 
-	bool TryMove(TPair<int, int>, TPair<int, int>);
-	void MoveOnBoard(ABoardActor* who, TPair<int, int>);
-	void AddToBoardMap(ABoardActor*);
-	void RemoveFromBoardMap(TPair<int, int>, ABoardActor* who);
-	ABoardActor* WhoAt(TPair <int, int>);
+	// board movement
+private:
+	bool CanMoveTo(ABoardActor* instigator, FIntCoords2D& to);
+	void MoveOnBoard(ABoardActor* who, FIntCoords2D& to);
+public:
+	UFUNCTION(BlueprintCallable)
+	bool MoveActorBy(ABoardActor* who, const FIntCoords2D& by);
+	
+	// board contents creation and removal
+	bool AddToBoard(ABoardActor*);
+	void AddEvent(ABoardScriptEvent*);
 
-protected:
-	TMap < TPair<int, int>, ABoardActor* > BoardMap;
+private:
+	typedef TMap < FIntCoords2D, TArray< ABoardActor* > > BoardMapType;
+	typedef TMap < ABoardActor*, int > ActorStatesType;
 
-	TSet<ABoardActor*> TickTurnSet;
+	BoardMapType BoardMap;
+	UPROPERTY(VisibleAnywhere, Category = State)
+	TMap < ABoardActor*, int > ActorStates;
+
+	TArray < BoardMapType > BoardMapHistory;
+	TArray < ActorStatesType > ActorStatesHistory;
+
+	UPROPERTY(VisibleAnywhere, Category = Attributes)
+	TArray < ABoardScriptEvent* > BoardEvents;
+
+	void TriggerEvents();
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
+	// Time related functions
+public:
 	UFUNCTION(BlueprintCallable)
+	void MakeTurn(ABoardActor* activeBoardActor, const FIntCoords2D& input);
+	UFUNCTION(BlueprintCallable)
+	void PassTurn();
+	UFUNCTION(BlueprintCallable)
+	void RewindTurn();
+private:
 	void TickTurnOnBoard();
+	void BackupBoardMap();
 };

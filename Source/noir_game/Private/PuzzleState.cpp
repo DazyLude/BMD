@@ -3,10 +3,20 @@
 
 #include "PuzzleState.h"
 
-bool APuzzleState::LevelComplete() {
-	return CollectedClues >= RequiredClues;
+APuzzleState::APuzzleState() {
+	cluesHistory = {};
 }
 
-void APuzzleState::TimeChanger() {
-	TimePassed++;
+bool APuzzleState::LevelComplete() {
+	return CollectedClues >= RequiredClues && TimeAvailable >= TimePassed;
+}
+
+void APuzzleState::TimeIncrement() {
+	++TimePassed;
+	cluesHistory.Push(CollectedClues);
+}
+
+void APuzzleState::TimeDecrement() {
+	--TimePassed;
+	CollectedClues = cluesHistory.Pop();
 }

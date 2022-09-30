@@ -2,47 +2,34 @@
 
 #include "BoardActor.h"
 #include "../Source/noir_game/Board.h"
+#include "IntCoords2D.h"
 
 // Sets default values
 ABoardActor::ABoardActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
 }
 
 // Called when the game starts or when spawned
 void ABoardActor::BeginPlay()
 {
 	Super::BeginPlay();
-    if (MyLittleBoard != nullptr) {
-	    MyLittleBoard->AddToBoardMap(this);
-        Move(GetBoardCoordinates());
-    }
+    if (MyLittleBoard != nullptr && MyLittleBoard->AddToBoard(this))
+        SetActorLocation(MyLittleBoard->GetBoardLocation(boardCoords));
     else BeginDestroy();
 }
 
-
-// Called every frame
-void ABoardActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+FIntCoords2D ABoardActor::GetBoardCoordinates() {
+	return boardCoords;
 }
 
-TPair<int, int> ABoardActor::GetBoardCoordinates() {
-	return { board_x, board_y };
+void ABoardActor::SetBoardCoordinates(FIntCoords2D new_coords) {
+    boardCoords = new_coords;
 }
 
-void ABoardActor::Move(TPair<int, int> to) {
-	board_x = to.Key;
-	board_y = to.Value;
-    SetActorLocation(MyLittleBoard->GetBoardLocation({ board_x, board_y }));
-}
-
-void ABoardActor::MoveBy(int dx, int dy) {
-    TPair<int, int> to{ board_x + dx, board_y + dy };
-    if (MyLittleBoard->TryMove(GetBoardCoordinates(), to))
-        MyLittleBoard->MoveOnBoard(this, to);
+void ABoardActor::MoveInWorld(FVector where) {
+    SetActorLocation(where);
 }
 
 void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVisualAsset, double scale_mod = 1.0) {
@@ -58,6 +45,15 @@ void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVi
 }
 
 void ABoardActor::PseudoDestroy() {
-    MyLittleBoard->RemoveFromBoardMap(GetBoardCoordinates(), this);
-    Mesh->SetHiddenInGame(true);
+    if (!isPseudoDestroyed) {
+        isPseudoDestroyed = true;
+        Mesh->SetHiddenInGame(true);
+    }
+}
+
+void ABoardActor::UnPseudoDestroy() {
+    if (isPseudoDestroyed) {
+        isPseudoDestroyed = false;
+        Mesh->SetHiddenInGame(false);
+    }
 }

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "IntCoords2D.h"
 #include "BoardActor.generated.h"
 
 class ABoard;
@@ -14,41 +15,45 @@ class NOIR_GAME_API ABoardActor : public AActor
 	GENERATED_BODY()
 	
 public:
+	ABoardActor();
+	virtual ~ABoardActor() {};
+
+	// board functionality
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
 	ABoard* MyLittleBoard {};
 
+	virtual bool Action(ABoardActor* instigator) { return true; };
+	virtual bool CanCollectClues() { return false; };
 
-	ABoardActor();
-	
-	virtual bool Action(TPair<int, int> from) { return true; };
-	// Sets default values for this actor's properties
-	TPair<int, int> GetBoardCoordinates();
-	void Move(TPair<int, int>);
-
-	UFUNCTION(BlueprintCallable)
-	void MoveBy(int dx, int dy);
-
-	void PseudoDestroy();
-
-	bool CanCollectClues {false};
+	// board coordinates and their manipulation
 protected:
 	UPROPERTY(VisibleAnywhere)
-		UStaticMeshComponent* Mesh;
+	UStaticMeshComponent* Mesh;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-		int board_x;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-		int board_y;
-	
+	FIntCoords2D boardCoords;
+
+public:
+	FIntCoords2D GetBoardCoordinates();
+	void SetBoardCoordinates(FIntCoords2D new_xy);
+	virtual void MoveInWorld(FVector where);
+
+protected:
 	// Sets mesh in children class constructors
 	void SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>&, double);
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	// methods to hide object if it is expired
+private:
+	bool isPseudoDestroyed{ false };
+protected:
+	void PseudoDestroy();
+	void UnPseudoDestroy();
 
-	virtual bool canTickTurn() { return false; };
+	// turn ticking
+public:
 	virtual void TickTurn() {};
+	virtual int GetState() { return 0; };
+	virtual void SetState(int state) {};
 };

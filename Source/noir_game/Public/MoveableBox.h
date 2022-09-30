@@ -15,5 +15,5 @@ class NOIR_GAME_API AMoveableBox : public ABoardActor
 	GENERATED_BODY()
 
 	AMoveableBox();
-	bool Action(TPair<int, int> from) override;
+	bool Action(ABoardActor*) override;
 };

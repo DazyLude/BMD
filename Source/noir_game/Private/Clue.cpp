@@ -9,25 +9,32 @@ AClue::AClue() {
 	SetMesh(VisualMesh, 1.);
 }
 
-bool AClue::Action(TPair<int, int> from) {
-	if (MyLittleBoard->WhoAt(from)->CanCollectClues) {
+bool AClue::Action(ABoardActor* instigator) {
+	if (LifeTime < 0) return true;
+
+	if (instigator->CanCollectClues()) {
 		APuzzleState* GS = Cast<APuzzleState>(GetWorld()->GetGameState());
 		if (GS != nullptr) {
 			GS->CollectedClues += ClueValue;
 		}
-		PseudoDestroy();
+		SetState(-1);
 		return true;
 	}
+
 	return false;
 }
 
-void AClue::LifeTimeTick() {
-	if (LifeTime > 0) {
-		--LifeTime;
-	}
+void AClue::TickTurn() {
+	if (isTemporary) --LifeTime;
+	if (LifeTime < 0) PseudoDestroy();
 }
 
-void AClue::TickTurn() {
-	if (isTemporary) LifeTimeTick();
-	if (LifeTime == 0) PseudoDestroy();
+int AClue::GetState() {
+	return LifeTime;
+}
+
+void AClue::SetState(int state) {
+	LifeTime = state;
+	if (LifeTime >= 0) UnPseudoDestroy();
+	else PseudoDestroy();
 }

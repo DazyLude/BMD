@@ -18,5 +18,5 @@ public:
 		FName NextLevel {"MenuLevel"};
 
 	ALevelExit();
-	bool Action(TPair<int, int>) override;
+	bool Action(ABoardActor*) override;
 };

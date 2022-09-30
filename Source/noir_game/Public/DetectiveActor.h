@@ -15,5 +15,6 @@ class NOIR_GAME_API ADetectiveActor : public ABoardActor
 	GENERATED_BODY()
 public:
 	ADetectiveActor();
-	bool Action(TPair<int, int> from) override;
+	bool Action(ABoardActor*) override { return false; };
+	bool CanCollectClues() override { return true; };
 };

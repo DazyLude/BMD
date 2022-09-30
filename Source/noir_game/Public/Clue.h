@@ -16,16 +16,15 @@ class NOIR_GAME_API AClue : public ABoardActor
 public:
 	AClue();
 
-	bool Action(TPair<int, int>) override;
+	bool Action(ABoardActor*) override;
 	UPROPERTY(EditAnywhere, category = Attributes)
 	int ClueValue {0};
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = Attributes)
-		int LifeTime {1};
+	int LifeTime {1};
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = Attributes)
-		bool isTemporary {false};
-	UFUNCTION(BlueprintCallable)
-		void LifeTimeTick();
+	bool isTemporary {false};
 
-	bool canTickTurn() override { return true; };
 	void TickTurn() override;
+	int GetState() override;
+	void SetState(int state) override;
 };

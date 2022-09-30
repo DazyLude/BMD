@@ -19,7 +19,6 @@ public:
 	AWall();
 
 protected:
-	bool Action(TPair<int, int>) override;
-
+	bool Action(ABoardActor*) override { return false; };
 
 };

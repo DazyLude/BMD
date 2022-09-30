@@ -7,10 +7,10 @@
 
 ALevelExit::ALevelExit() {
 	ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Props/SM_Chair.SM_Chair"));
-	SetMesh(VisualMesh, 3.);
+	SetMesh(VisualMesh, 1.5);
 }
 
-bool ALevelExit::Action(TPair<int, int> from) {
+bool ALevelExit::Action(ABoardActor* instigator) {
 	if (Cast<APuzzleState>(GetWorld()->GetGameState())->LevelComplete()) {
 		UGameplayStatics::OpenLevel(GetWorld(), NextLevel);
 		return true;

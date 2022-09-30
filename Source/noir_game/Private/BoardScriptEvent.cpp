@@ -8,6 +8,10 @@ void ABoardScriptEvent::Action_Implementation() {};
 
 bool ABoardScriptEvent::TriggerCondition_Implementation() { return false; };
 
+int ABoardScriptEvent::GetState_Implementation() { return 0; };
+
+void ABoardScriptEvent::SetState_Implementation(int state) { };
+
 // Sets default values
 ABoardScriptEvent::ABoardScriptEvent()
 {

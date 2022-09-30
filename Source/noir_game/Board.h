@@ -51,8 +51,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Attributes)
 	TArray < ABoardScriptEvent* > BoardEvents;
+	TArray < int > ScriptStates;
+	TArray < TArray < int >> ScriptStatesHistory;
 
 	void TriggerEvents();
+
+
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

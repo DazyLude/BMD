@@ -26,6 +26,12 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void Action();
 
+	UFUNCTION(BlueprintNativeEvent)
+	int GetState();
+
+	UFUNCTION(BlueprintNativeEvent)
+	void SetState(int state);
+
 	// Sets default values for this actor's properties
 	ABoardScriptEvent();
 

@@ -37,6 +37,7 @@ bool ABoard::AddToBoard(ABoardActor* whomst) {
 
 void ABoard::AddEvent(ABoardScriptEvent* event) {
 	BoardEvents.Add(event);
+	ScriptStates.Add(event->GetState());
 }
 
 bool ABoard::MoveActorBy(ABoardActor* who, const FIntCoords2D& by) {
@@ -85,6 +86,7 @@ void ABoard::PassTurn() {
 void ABoard::BackupBoardMap() {
 	BoardMapHistory.Push(BoardMap);
 	ActorStatesHistory.Push(ActorStates);
+	ScriptStatesHistory.Push(ScriptStates);
 }
 
 void ABoard::TickTurnOnBoard() {
@@ -95,10 +97,11 @@ void ABoard::TickTurnOnBoard() {
 }
 
 void ABoard::TriggerEvents() {
-	for (auto event : BoardEvents) {
-		if (event->TriggerCondition()) {
-			event->Action();
-		}
+	for (auto scriptActorIndex = 0; scriptActorIndex < BoardEvents.Num(); ++scriptActorIndex) {
+		auto script = BoardEvents[scriptActorIndex];
+		if (script->TriggerCondition())
+			script->Action();
+		ScriptStates[scriptActorIndex] = script->GetState();
 	}
 }
 
@@ -111,5 +114,9 @@ void ABoard::RewindTurn() {
 	ActorStates = ActorStatesHistory.Pop();
 	for (auto actorState : ActorStates) {
 		actorState.Key->SetState(actorState.Value);
+	}
+	ScriptStates = ScriptStatesHistory.Pop();
+	for (auto scriptActorIndex = 0; scriptActorIndex < BoardEvents.Num(); ++scriptActorIndex) {
+		BoardEvents[scriptActorIndex]->SetState(ScriptStates[scriptActorIndex]);
 	}
 }

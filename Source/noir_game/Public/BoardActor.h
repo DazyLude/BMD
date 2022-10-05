@@ -18,42 +18,39 @@ public:
 	ABoardActor();
 	virtual ~ABoardActor() {};
 
-	// board functionality
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-	ABoard* MyLittleBoard {};
-
+	// gameplay behavior
 	virtual bool Action(ABoardActor* instigator) { return true; };
+	virtual void TickTurn() {};
+
+	virtual int GetState() { return 0; };
+	virtual void SetState(int state) {};
+
 	virtual bool CanCollectClues() { return false; };
 
 	// board coordinates and their manipulation
-protected:
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* Mesh;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-	FIntCoords2D boardCoords;
-
-public:
 	FIntCoords2D GetBoardCoordinates();
 	void SetBoardCoordinates(FIntCoords2D new_xy);
 	virtual void MoveInWorld(FVector where);
 
 protected:
-	// Sets mesh in children class constructors
-	void SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>&, double);
+	ABoard* MyLittleBoard;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* Mesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+	FIntCoords2D boardCoords;
+
+	// Sets mesh in children class's constructors
+	void SetTileMesh();
+	void SetMeshMaterial(ConstructorHelpers::FObjectFinder<UMaterialInterface>& mat);
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-
-	// methods to hide object if it is expired
-private:
-	bool isPseudoDestroyed{ false };
-protected:
+	// methods to hide and show object on board without destroying it
 	void PseudoDestroy();
 	void UnPseudoDestroy();
 
-	// turn ticking
-public:
-	virtual void TickTurn() {};
-	virtual int GetState() { return 0; };
-	virtual void SetState(int state) {};
+private:
+	void SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>&, double);
+	bool isPseudoDestroyed{ false };
 };

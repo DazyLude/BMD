@@ -6,8 +6,9 @@
 #include "Kismet/GameplayStatics.h"
 
 ALevelExit::ALevelExit() {
-	ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Props/SM_Chair.SM_Chair"));
-	SetMesh(VisualMesh, 1.5);
+	SetTileMesh();
+	ConstructorHelpers::FObjectFinder<UMaterialInterface> material(TEXT("/Game/Materials/Exit/ExitMatRed.ExitMatRed"));
+	SetMeshMaterial(material);
 }
 
 bool ALevelExit::Action(ABoardActor* instigator) {

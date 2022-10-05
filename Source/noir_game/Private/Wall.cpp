@@ -4,6 +4,7 @@
 #include "Wall.h"
 
 AWall::AWall() {
-    ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Props/SM_Rock.SM_Rock"));
-    SetMesh(VisualMesh, 0.5);
+    SetTileMesh();
+    ConstructorHelpers::FObjectFinder<UMaterialInterface> material (TEXT("/Game/Materials/Wall/WallMat.WallMat"));
+    SetMeshMaterial(material);
 }

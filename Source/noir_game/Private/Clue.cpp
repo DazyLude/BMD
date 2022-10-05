@@ -5,8 +5,9 @@
 #include "PuzzleState.h"
 
 AClue::AClue() {
-	ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Props/SM_Bush.SM_Bush"));
-	SetMesh(VisualMesh, 1.);
+	SetTileMesh();
+	ConstructorHelpers::FObjectFinder<UMaterialInterface> material(TEXT("/Game/Materials/Clue/ClueMatGreen.ClueMatGreen"));
+	SetMeshMaterial(material);
 }
 
 bool AClue::Action(ABoardActor* instigator) {

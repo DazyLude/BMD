@@ -9,68 +9,74 @@
 
 class ABoardActor;
 class ABoardScriptEvent;
+class UCameraComponent;
 
-UCLASS(Placeable, ShowCategories = (Attributes))
+UCLASS(Placeable)
 class NOIR_GAME_API ABoard : public AActor
 {
 	GENERATED_BODY()
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-		int size_x;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-		int size_y;
 public:
-	// Sets default values for this actor's properties
-	ABoard();
+	// singletoneness is guaranteed (or so I think) after component initialization
+	UFUNCTION(BlueprintCallable)
+	static ABoard* GetBoardInstance();
 
-	// world transform
-	FVector GetBoardLocation(FIntCoords2D);
+	// world transform of a cell
+	UFUNCTION(BlueprintCallable)
+	FVector GetBoardLocation(const FIntCoords2D& where);
 
-	// board movement
-private:
-	bool CanMoveTo(ABoardActor* instigator, FIntCoords2D& to);
-	void MoveOnBoard(ABoardActor* who, FIntCoords2D& to);
-public:
+	// orthographic camera setup
+	UFUNCTION(BlueprintCallable)
+	float GetCameraFieldSize();
+
+	// movement on the board
 	UFUNCTION(BlueprintCallable)
 	bool MoveActorBy(ABoardActor* who, const FIntCoords2D& by);
+	UFUNCTION(BlueprintCallable)
+	void ForceMoveOnBoard(ABoardActor* who, const FIntCoords2D& to);
 	
-	// board contents creation and removal
+	// board contents creation
 	bool AddToBoard(ABoardActor*);
 	void AddEvent(ABoardScriptEvent*);
-
-private:
-	typedef TMap < FIntCoords2D, TArray< ABoardActor* > > BoardMapType;
-	typedef TMap < ABoardActor*, int > ActorStatesType;
-
-	BoardMapType BoardMap;
-	UPROPERTY(VisibleAnywhere, Category = State)
-	TMap < ABoardActor*, int > ActorStates;
-
-	TArray < BoardMapType > BoardMapHistory;
-	TArray < ActorStatesType > ActorStatesHistory;
-
-	UPROPERTY(VisibleAnywhere, Category = Attributes)
-	TArray < ABoardScriptEvent* > BoardEvents;
-	TArray < int > ScriptStates;
-	TArray < TArray < int >> ScriptStatesHistory;
-
-	void TriggerEvents();
-
-
-
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-
+	
 	// Time related functions
-public:
 	UFUNCTION(BlueprintCallable)
 	void MakeTurn(ABoardActor* activeBoardActor, const FIntCoords2D& input);
 	UFUNCTION(BlueprintCallable)
 	void PassTurn();
 	UFUNCTION(BlueprintCallable)
 	void RewindTurn();
+
+protected:
+	ABoard();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UCameraComponent* default_camera;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int size_x;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int size_y;
+
 private:
+	static ABoard* _instance;
+
+	typedef TMap < FIntCoords2D, TArray< ABoardActor* > > BoardMapType;
+	typedef TMap < ABoardActor*, int > ActorStatesType;
+
+	BoardMapType BoardMap;
+	TArray < BoardMapType > BoardMapHistory;
+
+	ActorStatesType ActorStates;
+	TArray < ActorStatesType > ActorStatesHistory;
+
+	TArray < ABoardScriptEvent* > BoardEvents;
+	TArray < int > ScriptStates;
+	TArray < TArray < int >> ScriptStatesHistory;
+
+	virtual void BeginPlay() override;
+	virtual void PreInitializeComponents() override;
+
+	bool CanMoveTo(ABoardActor* instigator, const FIntCoords2D& to);
+	
 	void TickTurnOnBoard();
+	void TriggerEvents();
 	void BackupBoardMap();
 };

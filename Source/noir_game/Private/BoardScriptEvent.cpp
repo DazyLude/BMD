@@ -16,7 +16,7 @@ void ABoardScriptEvent::SetState_Implementation(int state) { };
 ABoardScriptEvent::ABoardScriptEvent()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 }
 
@@ -24,13 +24,15 @@ ABoardScriptEvent::ABoardScriptEvent()
 void ABoardScriptEvent::BeginPlay()
 {
 	Super::BeginPlay();
-	board->AddEvent(this);
+	board = ABoard::GetBoardInstance();
+	if (board != nullptr)
+		board->AddEvent(this);
+	else
+		BeginDestroy();
 }
 
 // Called every frame
 void ABoardScriptEvent::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
-

@@ -16,9 +16,7 @@ class NOIR_GAME_API ABoardScriptEvent : public AActor
 	
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-		TArray < ABoardActor* > importantActors;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-		ABoard* board;
+	TArray < ABoardActor* > importantActors;
 
 	UFUNCTION(BlueprintNativeEvent)
 	bool TriggerCondition();
@@ -38,6 +36,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(BlueprintReadOnly, Category = Attributes)
+	ABoard* board;
 
 public:	
 	// Called every frame

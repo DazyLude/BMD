@@ -5,6 +5,7 @@
 #include "..\Source\noir_game\Board.h"
 
 ADetectiveActor::ADetectiveActor() {
-	ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/StarterContent/Props/SM_Statue.SM_Statue"));
-	SetMesh(VisualMesh, 1.5);
+	SetTileMesh();
+	ConstructorHelpers::FObjectFinder<UMaterialInterface> material(TEXT("/Game/Materials/Detective/DetectiveMat.DetectiveMat"));
+	SetMeshMaterial(material);
 }

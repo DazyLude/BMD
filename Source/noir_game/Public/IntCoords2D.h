@@ -37,5 +37,14 @@ struct FIntCoords2D
 		return x == rhs.x && y == rhs.y;
 	}
 
+	bool operator>(const FIntCoords2D& rhs) const {
+		return x > rhs.x && y > rhs.y;
+	}
+
+	bool operator>=(const FIntCoords2D& rhs) const {
+		return x >= rhs.x && y >= rhs.y;
+	}
+
+	static TArray<FIntCoords2D> interpolate(const FIntCoords2D& from, const FIntCoords2D& to);
 	friend uint32 GetTypeHash(const FIntCoords2D& hashed);
 };

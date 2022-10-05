@@ -15,6 +15,7 @@ ABoardActor::ABoardActor()
 void ABoardActor::BeginPlay()
 {
 	Super::BeginPlay();
+    MyLittleBoard = ABoard::GetBoardInstance();
     if (MyLittleBoard != nullptr && MyLittleBoard->AddToBoard(this))
         SetActorLocation(MyLittleBoard->GetBoardLocation(boardCoords));
     else BeginDestroy();
@@ -32,7 +33,7 @@ void ABoardActor::MoveInWorld(FVector where) {
     SetActorLocation(where);
 }
 
-void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVisualAsset, double scale_mod = 1.0) {
+void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVisualAsset, double scale_mod) {
     Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
     Mesh->SetupAttachment(RootComponent);
     if (MeshVisualAsset.Succeeded())
@@ -41,6 +42,19 @@ void ABoardActor::SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>& MeshVi
         Mesh->SetRelativeLocation(FVector(-0.5f, -0.5f, 0.0f));
         Mesh->SetWorldScale3D(FVector(scale_mod));
         Mesh->Activate();
+        SetRootComponent(Mesh);
+    }
+}
+
+void ABoardActor::SetTileMesh() {
+    ConstructorHelpers::FObjectFinder<UStaticMesh> VisualMesh(TEXT("/Game/Materials/FlatMesh.FlatMesh"));
+    SetMesh(VisualMesh, 1);
+}
+
+void ABoardActor::SetMeshMaterial(ConstructorHelpers::FObjectFinder<UMaterialInterface>& mat) {
+    if (Mesh == nullptr) return;
+    if (mat.Succeeded()) {
+        Mesh->SetMaterial(0, mat.Object);
     }
 }
 

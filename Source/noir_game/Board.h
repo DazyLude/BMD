@@ -19,10 +19,13 @@ public:
 	// singletoneness is guaranteed (or so I think) after component initialization
 	UFUNCTION(BlueprintCallable)
 	static ABoard* GetBoardInstance();
+	void OnConstruction(const FTransform& Transform) override;
 
 	// world transform of a cell
 	UFUNCTION(BlueprintCallable)
 	FVector GetBoardLocation(const FIntCoords2D& where);
+	UFUNCTION(BlueprintCallable)
+	FIntCoords2D RoundToBoardCoords(const FVector& where);
 
 	// orthographic camera setup
 	UFUNCTION(BlueprintCallable)
@@ -72,7 +75,7 @@ private:
 	TArray < TArray < int >> ScriptStatesHistory;
 
 	virtual void BeginPlay() override;
-	virtual void PreInitializeComponents() override;
+	void CameraSetup();
 
 	bool CanMoveTo(ABoardActor* instigator, const FIntCoords2D& to);
 	

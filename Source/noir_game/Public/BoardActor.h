@@ -18,6 +18,8 @@ public:
 	ABoardActor();
 	virtual ~ABoardActor() {};
 
+	virtual void OnConstruction(const FTransform& Transform) override;
+
 	// gameplay behavior
 	virtual bool Action(ABoardActor* instigator) { return true; };
 	virtual void TickTurn() {};
@@ -30,7 +32,9 @@ public:
 	// board coordinates and their manipulation
 	FIntCoords2D GetBoardCoordinates();
 	void SetBoardCoordinates(FIntCoords2D new_xy);
-	virtual void MoveInWorld(FVector where);
+	virtual void MoveInWorld(const FVector& where);
+
+	void Tick(float delta);
 
 protected:
 	ABoard* MyLittleBoard;
@@ -52,5 +56,14 @@ protected:
 
 private:
 	void SetMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>&, double);
+	void MoveABit();
+
+	typedef TPair<float, FVector> TimestampedLocation;
+
+	FVector LerpLocations(const TimestampedLocation& from, const TimestampedLocation& to);
+	FVector SubstituteZ(const FVector& where);
 	bool isPseudoDestroyed{ false };
+	TArray< TimestampedLocation > moveBuffer{};
+	bool isMoving{ false };
+	float timeMoving{ 0. };
 };

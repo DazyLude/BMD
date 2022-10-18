@@ -21,5 +21,12 @@
 				"Editor"
 			]
 		}
+	],
+	"TargetPlatforms": [
+		"Linux",
+		"LinuxArm64",
+		"Windows",
+		"IOS",
+		"Android"
 	]
 }

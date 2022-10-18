@@ -25,8 +25,9 @@ void ABoardScriptEvent::BeginPlay()
 {
 	Super::BeginPlay();
 	board = ABoard::GetBoardInstance();
-	if (board != nullptr)
+	if (board != nullptr) {
 		board->AddEvent(this);
+	}
 	else
 		BeginDestroy();
 }

@@ -10,7 +10,9 @@ AMoveableBox::AMoveableBox() {
 }
 
 bool AMoveableBox::Action(ABoardActor* instigator) {
-	auto dCoords { GetBoardCoordinates() - instigator->GetBoardCoordinates() };
-	if ( MyLittleBoard->MoveActorBy(this, dCoords) ) return true;
+	if (instigator->CanCollectClues()) {
+		auto dCoords{ GetBoardCoordinates() - instigator->GetBoardCoordinates() };
+		if (MyLittleBoard->MoveActorBy(this, dCoords)) return true;
+	}
 	return false;
 }

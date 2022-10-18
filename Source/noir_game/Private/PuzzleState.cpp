@@ -8,7 +8,9 @@ APuzzleState::APuzzleState() {
 }
 
 bool APuzzleState::LevelComplete() {
-	return CollectedClues >= RequiredClues && TimeAvailable >= TimePassed;
+	bool cluesCheck{ RequiredClues == 0 ? true : CollectedClues >= RequiredClues };
+	bool timeCheck{ TimeAvailable == 0 ? true : TimeAvailable >= TimePassed };
+	return cluesCheck && timeCheck;
 }
 
 void APuzzleState::TimeIncrement() {

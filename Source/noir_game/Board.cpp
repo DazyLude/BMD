@@ -12,13 +12,20 @@ const float CELL_SIZE_IN_ENGINE_UNITS{ 100. };
 // Sets default values
 ABoard::ABoard()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	_instance = this;
+
 	PrimaryActorTick.bCanEverTick = false;
+
 	size_x = 1;
 	size_y = 1;
-	BoardEvents = {};
-
 	default_camera = CreateDefaultSubobject<UCameraComponent>(TEXT("default camera"));
+}
+
+void ABoard::OnConstruction(const FTransform& Transform) {
+	Super::OnConstruction(Transform);
+}
+
+void ABoard::CameraSetup() {
 	default_camera->SetProjectionMode(ECameraProjectionMode::Orthographic);
 	default_camera->SetOrthoNearClipPlane(0.);
 	default_camera->SetOrthoFarClipPlane(150.);
@@ -27,6 +34,11 @@ ABoard::ABoard()
 	default_camera->PostProcessSettings.AutoExposureMaxBrightness = 0.15;
 	default_camera->PostProcessSettings.bOverride_AutoExposureMinBrightness = true;
 	default_camera->PostProcessSettings.AutoExposureMinBrightness = 0.15;
+	FVector point_down{ 0., 0., -1. };
+	default_camera->SetWorldRotation(point_down.Rotation());
+	default_camera->AddLocalRotation({ 0., 0., -90. });
+	default_camera->SetWorldLocation({ 0., 0., 100. });
+	default_camera->OrthoWidth = GetCameraFieldSize();
 	default_camera->Activate();
 }
 
@@ -34,33 +46,39 @@ ABoard* ABoard::_instance = nullptr;
 
 ABoard* ABoard::GetBoardInstance() {
 	if (_instance == nullptr) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Tried accessing board instance before component initialization is complete. Don't do that!"));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("GetBoardInstance returned nullptr, which is quite unexpected"));
 	}
 	return _instance;
-}
-
-void ABoard::PreInitializeComponents() {
-	_instance = this;
 }
 
 // Called when the game starts or when spawned
 void ABoard::BeginPlay()
 {
 	Super::BeginPlay();
-	FVector point_down{ 0., 0., -1. };
-	default_camera->SetWorldRotation(point_down.Rotation());
-	default_camera->AddLocalRotation({ 0., 0., -90. });
-	default_camera->SetWorldLocation({ 0., 0., 100. });
-	default_camera->OrthoWidth = GetCameraFieldSize();
+	CameraSetup();
 	GetWorld()->GetFirstPlayerController()->SetViewTarget(this);
 }
 
 FVector ABoard::GetBoardLocation(const FIntCoords2D& board_coords) {
-	return { double(board_coords.x) * CELL_SIZE_IN_ENGINE_UNITS, double(board_coords.y) * CELL_SIZE_IN_ENGINE_UNITS * -1., 0.};
+	return { 
+		double(board_coords.x) * CELL_SIZE_IN_ENGINE_UNITS,
+		double(board_coords.y) * CELL_SIZE_IN_ENGINE_UNITS * -1.,
+		0.
+		};
+}
+
+FIntCoords2D ABoard::RoundToBoardCoords(const FVector& where) {
+	return { 
+		int(where[0]) / 100,
+		int(where[1]) / -100,
+		};
 }
 
 float ABoard::GetCameraFieldSize() {
-	return CELL_SIZE_IN_ENGINE_UNITS * float(size_x >= size_y ? (size_x + 1) * 2 : (size_y + 1) * 2) * default_camera->AspectRatio;
+	float b_width = float(size_x + 1) * 2;
+	// board height needs to be smaller, since screens are wider than higher
+	float b_height = float(size_y + 1) * 2 * default_camera->AspectRatio;
+	return CELL_SIZE_IN_ENGINE_UNITS * (b_width > b_height ? b_width : b_height);
 }
 
 bool ABoard::AddToBoard(ABoardActor* whomst) {
@@ -88,7 +106,7 @@ bool ABoard::MoveActorBy(ABoardActor* who, const FIntCoords2D& by) {
 }
 
 bool ABoard::CanMoveTo(ABoardActor* instigator, const FIntCoords2D& to) {
-	if (to.x >= size_x || to.y >= size_y) return false;
+	if (to.x >  size_x || to.y >  size_y) return false;
 	if (to.x < -size_x || to.y < -size_x) return false;
 	if (!BoardMap.Contains(to)) return true;
 
